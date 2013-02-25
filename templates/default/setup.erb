@@ -5,15 +5,21 @@ set -o verbose
 
 ROOT_PATH=${ROOT_PATH:-<%= node[:warden][:root] %>}
 
-git clone ${GIT_URL:-<%= node[:warden][:git_repo] %>} $ROOT_PATH
-
-if [[ -n "$GIT_COMMIT" ]]; then
+if [ ! -d "$ROOT_PATH/.git" ]; then
+  git clone ${GIT_URL:-<%= node[:warden][:git_repo] %>} $ROOT_PATH
+else
   pushd $ROOT_PATH
-    git checkout $GIT_COMMIT
+    git pull
   popd
 fi
 
-sed -i "s|/tmp/warden|${ROOT_PATH}/warden/data|g" ${ROOT_PATH}/warden/config/<%= node[:warden][:container_template] %>.yml
+GIT_BRANCH=${GIT_BRANCH:-<%= node[:warden][:git_branch] %>}
 
-<%= node[:warden][:script][:server] %> install --path vendor/bundle
-<%= node[:warden][:script][:server] %> exec rake setup[${CONFIG_PATH:-config/<%= node[:warden][:container_template] %>.yml}]
+if [[ -n "$GIT_BRANCH" ]]; then
+  pushd $ROOT_PATH
+    git checkout $GIT_BRANCH
+  popd
+fi
+
+<%= node[:warden][:script][:run] %> install --path vendor/bundle
+<%= node[:warden][:script][:run] %> exec rake setup[${CONFIG_PATH:-<%= node[:warden][:config_file] %>}]

@@ -1,9 +1,3 @@
 #!/usr/bin/env bash
 
-export ROOT_PATH="${ROOT_PATH:-<%= ::File.join(node[:warden][:root], 'warden') %>}"
-
-if [[ -n "$@" ]]; then
-  exec <%= node[:warden][:script][:run] %> "$@"
-else
-  exec <%= node[:warden][:script][:run] %> exec bin/warden
-fi
+exec <%= node[:warden][:script][:run] %> exec bin/warden

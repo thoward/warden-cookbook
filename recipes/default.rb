@@ -28,7 +28,7 @@ rvm_ruby node[:warden][:rvm_version] do
    action :install
 end
 
-template "warden_run" do
+template "warden-run" do
   path node[:warden][:script][:run]
   source "run.erb"
   mode 0755
@@ -36,7 +36,7 @@ template "warden_run" do
   group 'root'
 end
 
-template "warden_setup" do
+template "warden-setup" do
   path node[:warden][:script][:setup]
   source "setup.erb"
   mode 0755
@@ -45,16 +45,16 @@ template "warden_setup" do
   only_if { File.exist?(node[:warden][:script][:run]) }
 end
 
-template "warden_reset" do
-  path node[:warden][:script][:reset]
-  source "reset.erb"
+template "warden-purge" do
+  path node[:warden][:script][:purge]
+  source "purge.erb"
   mode 0755
   owner 'root'
   group 'root'
   only_if { File.exist?(node[:warden][:script][:run]) }
 end
 
-template "warden_server" do
+template "warden-server" do
   path node[:warden][:script][:server]
   source "server.erb"
   mode 0755
@@ -63,7 +63,7 @@ template "warden_server" do
   only_if { File.exist?(node[:warden][:script][:run]) }
 end
 
-template "warden_repl" do
+template "warden-repl" do
   path node[:warden][:script][:repl]
   source "repl.erb"
   mode 0755
@@ -71,6 +71,31 @@ template "warden_repl" do
   group 'root'
   only_if { File.exist?(node[:warden][:script][:run]) }
 end
+
+# config directory
+directory File.dirname(node[:warden][:config_file]) do
+  owner "root"
+  group "root"
+  mode 00755
+  action :create
+end
+
+template "container config file" do
+  path node[:warden][:config_file]
+  source "container.yml.erb"
+  mode 0755
+  owner 'root'
+  group 'root'
+end
+
+# data directory
+directory node[:warden][:data] do
+  owner "root"
+  group "root"
+  mode 00755
+  action :create
+end
+
 
 log "*** Warden Setup operation may take a long time to complete. ***"
 

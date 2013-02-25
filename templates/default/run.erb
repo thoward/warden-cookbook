@@ -4,6 +4,6 @@
 
 rvm use "<%= node[:warden][:rvm_version] %>"
 
-cd "${ROOT_PATH:-<%= node[:warden][:root] %>}"
+cd "${ROOT_PATH:-<%= node[:warden][:root] %>/warden}"
 
 exec bundle "$@"

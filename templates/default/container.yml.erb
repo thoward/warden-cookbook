@@ -1,0 +1,52 @@
+---
+server:
+  container_klass: <%= node[:warden][:config][:container_klass] %>
+
+  # Wait this long before destroying a container, after the last client
+  # referencing it disconnected. The timer is cancelled when during this
+  # period, another client references the container.
+  #
+  # Clients can be forced to specify this setting by setting the
+  # server-wide variable to an invalid value:
+  #   container_grace_time: invalid
+  #
+  # The grace time can be disabled by setting it to nil:
+  #   container_grace_time: ~
+  #
+  container_grace_time: <%= node[:warden][:config][:container_grace_time] %>
+
+  unix_domain_permissions: <%= node[:warden][:config][:unix_domain_permissions] %>
+
+  # Specifies the path to the base chroot used as the read-only root
+  # filesystem
+  container_rootfs_path: <%= node[:warden][:data] %>/rootfs
+
+  # Specifies the path to the parent directory under which all containers
+  # will live.
+  container_depot_path: <%= node[:warden][:data] %>/containers
+
+  # See getrlimit(2) for details. Integer values are passed verbatim.
+  container_rlimits:
+    as: <%= node[:warden][:config][:container_rlimits][:as] %>
+    nofile: <%= node[:warden][:config][:container_rlimits][:nofile] %>
+    nproc: <%= node[:warden][:config][:container_rlimits][:nproc] %>
+
+  quota:
+    disk_quota_enabled: <%= node[:warden][:config][:quota][:disk_quota_enabled] %>
+
+health_check_server:
+  port: <%= node[:warden][:config][:health_check_server][:port] %>
+
+logging:
+  level: <%= node[:warden][:config][:logging][:level] %>
+
+network:
+  # Use this /30 network as offset for the network pool.
+  pool_start_address: <%= node[:warden][:config][:network][:pool_start_address] %>
+
+  # Pool this many /30 networks.
+  pool_size: <%= node[:warden][:config][:network][:pool_size] %>
+
+user:
+  pool_start_uid: <%= node[:warden][:config][:user][:pool_start_uid] %>
+  pool_size: <%= node[:warden][:config][:user][:pool_size] %>

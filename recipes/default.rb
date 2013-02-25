@@ -75,5 +75,5 @@ end
 execute 'warden_setup' do
   command 'warden-setup'
   only_if { File.exist?(node[:warden][:script][:setup]) }
-  not_if { Dir.exists?(File.join(node[:warden][:root], '.git'))}
+  not_if { File.directory?(File.join(node[:warden][:root], '.git'))}
 end

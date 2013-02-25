@@ -1,0 +1,10 @@
+default[:warden][:rvm_version] = 'ruby-1.9.3-p194'
+default[:warden][:git_repo] = 'git://github.com/cloudfoundry/warden.git'
+default[:warden][:container_template] = 'linux'
+
+default[:warden][:root] = '/opt/warden'
+default[:warden][:script][:run] = '/usr/sbin/warden-run'
+default[:warden][:script][:setup] = '/usr/sbin/warden-setup'
+default[:warden][:script][:reset] = '/usr/sbin/warden-reset'
+default[:warden][:script][:repl] = '/usr/sbin/warden-repl'
+default[:warden][:script][:server] = '/usr/sbin/warden-server'

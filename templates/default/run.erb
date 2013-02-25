@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+[ -s "/usr/local/rvm/scripts/rvm" ] && . "/usr/local/rvm/scripts/rvm"
+
+rvm use "<%= node[:warden][:rvm_version] %>"
+
+cd "${ROOT_PATH:-<%= node[:warden][:root] %>}"
+
+exec bundle "$@"

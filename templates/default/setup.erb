@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o verbose
+
+ROOT_PATH=${ROOT_PATH:-<%= node[:warden][:root] %>}
+
+git clone ${GIT_URL:-<%= node[:warden][:git_repo] %>} $ROOT_PATH
+
+if [[ -n "$GIT_COMMIT" ]]; then
+  pushd $ROOT_PATH
+    git checkout $GIT_COMMIT
+  popd
+fi
+
+sed -i "s|/tmp/warden|${ROOT_PATH}/warden/data|g" ${ROOT_PATH}/warden/config/<%= node[:warden][:container_template] %>.yml
+
+<%= node[:warden][:script][:server] %> install --path vendor/bundle
+<%= node[:warden][:script][:server] %> exec rake setup[${CONFIG_PATH:-config/<%= node[:warden][:container_template] %>.yml}]

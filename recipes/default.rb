@@ -72,8 +72,20 @@ template "warden_repl" do
   only_if { File.exist?(node[:warden][:script][:run]) }
 end
 
+log "*** Warden Setup operation may take a long time to complete. ***"
+
 execute 'warden_setup' do
   command 'warden-setup'
   only_if { File.exist?(node[:warden][:script][:setup]) }
   not_if { File.directory?(File.join(node[:warden][:root], '.git'))}
 end
+
+template "warden_service" do  
+  path File.join("", "etc", "init.d", "warden")
+  source "initd_service.erb"
+  owner 'root'
+  group 'root'
+  mode 0700
+end
+
+log "*** Warden service must be manually started with 'sudo service warden start' ***"

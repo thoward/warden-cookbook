@@ -5,7 +5,7 @@ A cookbook to install Cloud Foundry's Warden as a standalone component.
 
 ## Locations and Files
 
-By default, this cookbook creates file in the following locations (though they can be overriden via the attributes, of course).
+By default, this cookbook creates file in the following locations (though most can be overriden via node attributes).
 
 ### Warden Installation Directory
 
@@ -54,12 +54,14 @@ sudo service warden stop
 sudo service warden restart
 ```
 
-On start, this writes a PID file for the process to ```/var/run/warden.pid```. 
+On start, this writes a PID file for the process to ```/var/run/warden.pid```. Neither the location of this script, it's PID file or the log file can be overridden with attributes at this time.
 
 
 ### General Scripts
 
-NOTE: There scripts must all be run as root.
+NOTE: These scripts must all be run as **root**.
+
+#### warden-setup
 
 ```
 /usr/sbin/warden-setup
@@ -73,12 +75,16 @@ This will:
 - Run ```rake setup``` which will build the chroot rootfs
 
 
+#### warden-repl
+
 ```
 /usr/sbin/warden-repl
 ```
 
 **warden-repl** runs an interactive REPL console for warden. 
 
+
+#### warden-run
 
 ```
 /usr/sbin/warden-run
@@ -87,6 +93,8 @@ This will:
 **warden-run** executes commands in warden's directory/rvm/bundle context. This isn't really meant for manual usage, but is a utility script used by the other scripts.
 
 
+#### warden-purge
+
 ```
 /usr/sbin/warden-purge
 ```
@@ -94,6 +102,6 @@ This will:
 **warden-purge** deletes the warden root directory. It's just a shortcut for ```rm -rf /opt/warden``` and is generally followed by ```sudo warden-setup``` to reinstall warden. Note: Since data is stored in a different directory, this only purges the warden server code and it's container template.
 
 
-### Credit / History
+## Credit / History
 
 This cookbook was originally a port of [vagrant-warden](https://github.com/silas/vagrant-warden) by @silas . The original vagrant project uses Puppet for the provisioner, but I felt more comfortable w/ Chef so I ported it. 

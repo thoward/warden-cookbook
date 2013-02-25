@@ -10,6 +10,7 @@ version          "0.1.0"
   supports os
 end
 
+depends "apt", ">= 1.9.0"
 depends "build-essential", ">= 1.3.4"
 depends "rvm", ">= 0.9.1"
 depends "debootstrap", ">= 0.2.0"

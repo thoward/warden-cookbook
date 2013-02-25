@@ -3,7 +3,7 @@ warden-cookbook
 
 A cookbook to install Cloud Foundry's Warden as a standalone component.
 
-### Default Locations of Files/Directories
+## Locations and Files
 
 By default, this cookbook creates file in the following locations (though they can be overriden via the attributes, of course).
 

@@ -17,12 +17,6 @@ This contains the source files from the git repository for Warden. The repo and 
 
 The location of this directory can be overridden in ```node[:warden][:root]```.
 
-### Log File
-
-```
-/var/log/warden.log
-```
-
 ### Configuration File
 
 ```
@@ -56,6 +50,17 @@ sudo service warden restart
 
 On start, this writes a PID file for the process to ```/var/run/warden.pid```. Neither the location of this script, it's PID file or the log file can be overridden with attributes at this time.
 
+### Log File
+
+```
+/var/log/warden.log
+```
+
+### PID File
+
+```
+/var/run/warden.pid
+```
 
 ### General Scripts
 
@@ -67,7 +72,7 @@ NOTE: These scripts must all be run as **root**.
 /usr/sbin/warden-setup
 ```
 
-**warden-setup** installs and updates warden. 
+This script installs and updates warden. 
 
 This will: 
 - Clone or update the warden code from github
@@ -81,7 +86,7 @@ This will:
 /usr/sbin/warden-repl
 ```
 
-**warden-repl** runs an interactive REPL console for warden. 
+This script runs an interactive REPL console for warden. 
 
 
 #### warden-run
@@ -90,7 +95,7 @@ This will:
 /usr/sbin/warden-run
 ```
 
-**warden-run** executes commands in warden's directory/rvm/bundle context. This isn't really meant for manual usage, but is a utility script used by the other scripts.
+This script executes commands in warden's directory/rvm/bundle context. This isn't really meant for manual usage, but is a utility script used by the other scripts.
 
 
 #### warden-purge
@@ -99,7 +104,7 @@ This will:
 /usr/sbin/warden-purge
 ```
 
-**warden-purge** deletes the warden root directory. It's just a shortcut for ```rm -rf /opt/warden``` and is generally followed by ```sudo warden-setup``` to reinstall warden. Note: Since data is stored in a different directory, this only purges the warden server code and it's container template.
+This script deletes the warden root directory. It's just a shortcut for ```rm -rf /opt/warden``` and is generally followed by ```sudo warden-setup``` to reinstall warden. Note: Since data is stored in a different directory, this only purges the warden server code and it's container template.
 
 
 ## Credit / History
